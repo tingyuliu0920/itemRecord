@@ -2,10 +2,12 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Avatar, Tooltip } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import homepic from '../assets/home.png';
 
 const Heading = () => {
+  const navigate = useNavigate();
   return (
     <Box>
       <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
@@ -17,8 +19,9 @@ const Heading = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
+              onClick={() => navigate('/')}
             >
-              <MenuIcon />
+              <img src={homepic} alt="" className="w-[70px]" />
             </IconButton>
           </Box>
 

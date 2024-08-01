@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
+import homepic from '../../assets/home.png';
 const Register = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -60,7 +60,7 @@ const Register = () => {
         className="p-10 rounded-lg"
       >
         <div className="py-12">
-          <div className="w-[80px] h-[80px] bg-blue-400 rounded-full"></div>
+          <img src={homepic} alt="" className="w-[120px]" />
         </div>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <TextField
