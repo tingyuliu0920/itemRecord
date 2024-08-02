@@ -1,64 +1,41 @@
-import { Box, Grid } from '@mui/material';
+import { useLocation, useParams } from 'react-router-dom';
+import { categoryList } from '../../data';
+import { calculateAge } from '../../utils/time';
+
+type RouteParams = Record<string, string | undefined>;
+
+interface Item {
+  name: string;
+  category: string;
+  picture: string;
+  source: string;
+  age: string;
+  comment: string;
+}
 
 const Item = () => {
-  return (
-    <div>
-      <Box>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={3}>
-            <label htmlFor="name">Item Name</label>
-          </Grid>
-          <Grid item xs={9}>
-            <p>iphone8</p>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center" marginTop={2}>
-          <Grid item xs={3}>
-            <label htmlFor="category">Category</label>
-          </Grid>
-          <Grid item xs={9}>
-            <p>electrocities</p>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center" marginTop={2}>
-          <Grid item xs={3}>
-            <label htmlFor="picture">Picture</label>
-          </Grid>
-          <Grid item xs={9}>
-            <div className="w-2/3">
-              <img
-                src="https://mui.com/static/images/cards/contemplative-reptile.jpg"
-                alt=""
-              />
-            </div>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center" marginTop={2}>
-          <Grid item xs={3}>
-            <label htmlFor="source">Source</label>
-          </Grid>
-          <Grid item xs={9}>
-            <p>自己买的</p>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} alignItems="center" marginTop={2}>
-          <Grid item xs={3}>
-            <label htmlFor="date">Age</label>
-          </Grid>
-          <Grid item xs={9}>
-            5 years old
-          </Grid>
-        </Grid>
+  const { id } = useParams<RouteParams>();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const categoryId = query.get('cId');
 
-        <Grid container spacing={2} alignItems="start" marginTop={2}>
-          <Grid item xs={3}>
-            <label htmlFor="comment">Comment</label>
-          </Grid>
-          <Grid item xs={9}>
-            真的很喜欢，攒了好久的钱才买到的。
-          </Grid>
-        </Grid>
-      </Box>
+  const item = categoryList
+    .find((category) => category.id === categoryId)
+    ?.children.find((item) => item.id === id);
+  return (
+    <div className="flex justify-start">
+      {item && (
+        <div className="sm:max-w-[800px]">
+          <h5>{item.name}</h5>
+          <p>electrocities</p>
+          <div className="w-1/3">
+            <img src={item.picture} alt="" />
+          </div>
+          <p>{item.source}</p>
+          <p> {calculateAge(item.getDate)}</p>
+          <p>{item.comment}</p>
+        </div>
+      )}
     </div>
   );
 };

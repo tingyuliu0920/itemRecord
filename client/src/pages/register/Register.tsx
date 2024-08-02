@@ -3,7 +3,6 @@ import {
   TextField,
   Button,
   Typography,
-  Box,
   FormControl,
   InputLabel,
   Input,
@@ -12,7 +11,8 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import homepic from '../../assets/home.png';
+import PageLayout from '../login/components/PageLayout';
+import FormContainer from '../login/components/FormContainer';
 const Register = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -47,21 +47,8 @@ const Register = () => {
     event.preventDefault();
   };
   return (
-    <div
-      className="flex justify-center items-center bg-orange-200"
-      style={{ width: '100vw', height: '100vh' }}
-    >
-      <Box
-        display="flex"
-        width={400}
-        flexDirection="column"
-        alignItems="center"
-        bgcolor="white"
-        className="p-10 rounded-lg"
-      >
-        <div className="py-12">
-          <img src={homepic} alt="" className="w-[120px]" />
-        </div>
+    <PageLayout>
+      <FormContainer>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           <TextField
             fullWidth
@@ -116,15 +103,15 @@ const Register = () => {
           >
             Register
           </Button>
-          <p className="text-center mt-20 text-gray-700">
+          <p className="text-center mt-8 text-gray-700">
             Already have an account?
-            <Link to="/">
+            <Link to="/login">
               <span className=" text-gray-900 hover:underline"> Sign in</span>
             </Link>
           </p>
         </form>
-      </Box>
-    </div>
+      </FormContainer>
+    </PageLayout>
   );
 };
 

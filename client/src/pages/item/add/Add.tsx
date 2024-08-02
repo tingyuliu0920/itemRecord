@@ -4,6 +4,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+
+import { categoryList } from '../../../data';
 import FormWrapper from './components/formWrapper';
 
 const VisuallyHiddenInput = styled('input')({
@@ -19,27 +21,9 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const Add = () => {
-  const currencies = [
-    {
-      value: 'USD',
-      label: '$',
-    },
-    {
-      value: 'EUR',
-      label: '€',
-    },
-    {
-      value: 'BTC',
-      label: '฿',
-    },
-    {
-      value: 'JPY',
-      label: '¥',
-    },
-  ];
   const handleSubmit = () => {};
   return (
-    <div>
+    <div className="sm:max-w-[700px]">
       <FormWrapper
         component="form"
         onSubmit={handleSubmit}
@@ -65,9 +49,9 @@ const Add = () => {
               id="outlined-select-currency"
               defaultValue=""
             >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {categoryList.map((option) => (
+                <MenuItem key={option.name} value={option.id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </TextField>
@@ -88,12 +72,12 @@ const Add = () => {
               Upload
               <VisuallyHiddenInput type="file" />
             </Button>
-            <div className="w-4/5">
+            {/* <div className="w-4/5">
               <img
                 src="https://mui.com/static/images/cards/contemplative-reptile.jpg"
                 alt=""
               />
-            </div>
+            </div> */}
           </Grid>
         </Grid>
         <Grid container spacing={2} alignItems="center" marginTop={2}>

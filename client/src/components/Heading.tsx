@@ -3,14 +3,22 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { Avatar, Tooltip } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import homepic from '../assets/home.png';
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const Heading = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <Box>
-      <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
+      <AppBar
+        position="static"
+        color="transparent"
+        sx={{ boxShadow: 'none', paddingY: '10px' }}
+      >
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <IconButton
@@ -23,13 +31,34 @@ const Heading = () => {
             >
               <img src={homepic} alt="" className="w-[70px]" />
             </IconButton>
+            {location.pathname !== '/add' && (
+              <Tooltip title="Add new item" placement="bottom">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className="bg-orange-600 w-[54px] h-[54px] fixed bottom-10 right-10 z-10 sm:static"
+                  sx={{
+                    '&.MuiButton-root': {
+                      borderRadius: '50%',
+                      minWidth: 'auto',
+                    },
+                  }}
+                  onClick={() => navigate('/add')}
+                >
+                  <AddIcon fontSize="medium" />
+                </Button>
+              </Tooltip>
+            )}
           </Box>
 
           <Tooltip title="Open profile">
             <IconButton sx={{ p: 0 }}>
               <Avatar
-                alt="Remy Sharp"
-                src="https://mui.com/static/images/avatar/2.jpg"
+                alt="Tingyu"
+                src="https://tingyuliu.dev/assets/me-oGumKleA.png"
+                className="w-[50px] h-[50px]"
               />
             </IconButton>
           </Tooltip>
