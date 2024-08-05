@@ -1,4 +1,11 @@
-import { Box, Button, Grid, MenuItem, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -6,7 +13,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 
 import { categoryList } from '../../../data';
-import FormWrapper from './components/formWrapper';
+import FormWrapper from './components/FormWrapper';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -24,6 +31,9 @@ const Add = () => {
   const handleSubmit = () => {};
   return (
     <div className="sm:max-w-[700px]">
+      <Typography variant="h4" color="text.primary" gutterBottom>
+        Add Item
+      </Typography>
       <FormWrapper
         component="form"
         onSubmit={handleSubmit}

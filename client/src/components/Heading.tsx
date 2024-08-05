@@ -31,37 +31,33 @@ const Heading = () => {
             >
               <img src={homepic} alt="" className="w-[70px]" />
             </IconButton>
-            {location.pathname !== '/add' && (
-              <Tooltip title="Add new item" placement="bottom">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  className="bg-orange-600 w-[54px] h-[54px] fixed bottom-10 right-10 z-10 sm:static"
-                  sx={{
-                    '&.MuiButton-root': {
-                      borderRadius: '50%',
-                      minWidth: 'auto',
-                    },
-                  }}
-                  onClick={() => navigate('/add')}
-                >
-                  <AddIcon fontSize="medium" />
-                </Button>
-              </Tooltip>
-            )}
           </Box>
-
-          <Tooltip title="Open profile">
-            <IconButton sx={{ p: 0 }}>
-              <Avatar
-                alt="Tingyu"
-                src="https://tingyuliu.dev/assets/me-oGumKleA.png"
-                className="w-[50px] h-[50px]"
-              />
-            </IconButton>
-          </Tooltip>
+          {location.pathname !== '/add' && (
+            <Tooltip title="Add new item" placement="bottom">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                className="bg-orange-600 w-[54px] h-[54px] fixed bottom-10 right-10 z-10 sm:static sm:mr-4"
+                sx={{
+                  '&.MuiButton-root': {
+                    borderRadius: '50%',
+                    minWidth: 'auto',
+                  },
+                }}
+                onClick={() => navigate('/add')}
+              >
+                <AddIcon fontSize="medium" />
+              </Button>
+            </Tooltip>
+          )}
+          <Avatar
+            alt="Tingyu"
+            src="https://tingyuliu.dev/assets/me-oGumKleA.png"
+            className="w-[50px] h-[50px] cursor-pointer"
+            onClick={() => navigate('/profile')}
+          />
         </Toolbar>
       </AppBar>
     </Box>

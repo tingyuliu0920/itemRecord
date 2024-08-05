@@ -43,8 +43,8 @@ function App() {
           element: <Item />,
         },
         {
-          path: '/itemedit/:id',
-          element: <Item />,
+          path: '/item/:id/edit',
+          element: <Add />,
         },
       ],
     },

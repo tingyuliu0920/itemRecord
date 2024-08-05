@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { ListItemProps } from './components/ListItem';
 
 type RouteParams = Record<string, string | undefined>;
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 4;
 
 const List = () => {
   const { id } = useParams<RouteParams>();
@@ -27,7 +27,7 @@ const List = () => {
   };
   return (
     <div>
-      <Typography fontSize={36} marginBottom={3}>
+      <Typography variant="h4" color="text.primary" gutterBottom>
         {name}
       </Typography>
       <Grid container spacing={2} columns={24}>
