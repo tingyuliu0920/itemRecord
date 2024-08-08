@@ -4,7 +4,6 @@ const FormWrapper = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  width: '600px',
   margin: '0 auto',
 });
 

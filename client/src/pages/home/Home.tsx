@@ -1,48 +1,23 @@
 import Category from './components/Category';
 import { Grid } from '@mui/material';
-import HomeLayout from '../../components/MainLayout';
-const categoryList = [
-  {
-    id: 1,
-    name: 'Electoric Devices',
-    picture: 'https://mui.com/static/images/cards/contemplative-reptile.jpg',
-  },
-  {
-    id: 2,
-    name: 'Electoric Devices',
-    picture: 'https://mui.com/static/images/cards/contemplative-reptile.jpg',
-  },
-  {
-    id: 3,
-    name: 'Electoric Devices',
-    picture: 'https://mui.com/static/images/cards/contemplative-reptile.jpg',
-  },
-  {
-    id: 4,
-    name: 'Electoric Devices',
-    picture: 'https://mui.com/static/images/cards/contemplative-reptile.jpg',
-  },
-  {
-    id: 5,
-    name: 'Electoric Devices',
-    picture: 'https://mui.com/static/images/cards/contemplative-reptile.jpg',
-  },
-  {
-    id: 6,
-    name: 'Electoric Devices',
-    picture: 'https://mui.com/static/images/cards/contemplative-reptile.jpg',
-  },
-];
-const home = () => {
+import { categoryList } from '../../data';
+
+const Home = () => {
   return (
-    <Grid container spacing={2} columns={12}>
-      {categoryList.map((category) => (
-        <Grid item xs={4}>
-          <Category key={category.id} data={category} />
-        </Grid>
-      ))}
-    </Grid>
+    <div className="flex">
+      {categoryList.length > 0 && (
+        <div className="flex-1">
+          <Grid container spacing={2} columns={24}>
+            {categoryList.map((category) => (
+              <Grid item xs={12} sm={8} md={6} lg={6} key={category.id}>
+                <Category data={category} />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default home;
+export default Home;

@@ -1,38 +1,43 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-interface ListItemProps {
-  id: number;
+import { calculateAge } from '../../../utils/time';
+
+export interface ListItemProps {
+  id: string;
   name: string;
   picture: string;
-  age?: string;
+  getDate?: string;
 }
-const ListItem = ({ data }: { data: ListItemProps }) => {
+const ListItem = ({
+  categoryId,
+  data,
+}: {
+  categoryId: string | undefined;
+  data: ListItemProps;
+}) => {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ maxWidth: 250, minWidth: 180 }}
       onClick={() => {
-        navigate(`/item/${data.id}`);
+        navigate(`/item/${data.id}?cId=${categoryId}`);
       }}
     >
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={data.picture}
-          alt="green iguana"
-        />
+        <div className="flex justify-center py-4">
+          <img src={data.picture} alt="" className="w-3/5" />
+        </div>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {data.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {data.age}
-          </Typography>
+          {data.getDate && (
+            <Typography variant="body2" color="text.secondary">
+              {calculateAge(data.getDate)}
+            </Typography>
+          )}
         </CardContent>
       </CardActionArea>
     </Card>

@@ -43,8 +43,8 @@ function App() {
           element: <Item />,
         },
         {
-          path: '/itemedit/:id',
-          element: <Item />,
+          path: '/item/:id/edit',
+          element: <Add />,
         },
       ],
     },
@@ -59,9 +59,9 @@ function App() {
   ]);
 
   return (
-    <div>
+    <>
       <RouterProvider router={router} />
-    </div>
+    </>
   );
 }
 
