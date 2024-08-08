@@ -37,7 +37,7 @@ const Item = () => {
   const orangeColor = orange[500];
   const darkerOrange = orange[700];
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -70,7 +70,7 @@ const Item = () => {
                   p: 1,
                   '&:hover': { backgroundColor: darkerOrange },
                 }}
-                onClick={() => navigate('/item/${item.id}/edit')}
+                // onClick={() => navigate('/item/${item.id}/edit')}
               >
                 <Tooltip title="Edit">
                   <Edit />

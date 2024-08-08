@@ -25,7 +25,7 @@ const VisuallyHiddenInput = styled('input')({
   display: 'none',
 });
 
-interface Item {
+interface ItemFormData {
   name: string;
   categoryId: string;
   source: string;
@@ -34,14 +34,8 @@ interface Item {
   comment: string;
 }
 
-interface Errors {
-  name: boolean;
-  categoryId: boolean;
-  picture: boolean;
-  date: boolean;
-}
 const Add = () => {
-  const [item, setItem] = useState<Item>({
+  const [item, setItem] = useState<ItemFormData>({
     name: '',
     categoryId: '',
     source: '',
@@ -52,12 +46,9 @@ const Add = () => {
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const [errors, setErrors] = useState<Errors>({
-    name: false,
-    categoryId: false,
-    picture: false,
-    date: false,
-  });
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof ItemFormData, string>>
+  >({});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -66,20 +57,12 @@ const Add = () => {
       ...item,
       [e.target.name]: e.target.value,
     });
-    setErrors({
-      ...errors,
-      [e.target.name]: false,
-    });
   };
 
   const handleCategoryChange = (e: SelectChangeEvent) => {
     setItem({
       ...item,
       categoryId: e.target.value as string,
-    });
-    setErrors({
-      ...errors,
-      categoryId: false,
     });
   };
 
@@ -91,10 +74,6 @@ const Add = () => {
         picture: imageFile,
       });
       setImagePreview(URL.createObjectURL(imageFile));
-      setErrors({
-        ...errors,
-        picture: false,
-      });
     }
   };
 
@@ -103,29 +82,33 @@ const Add = () => {
       ...item,
       date,
     });
-    setErrors({
-      ...errors,
-      date: false,
-    });
+  };
+
+  const validate = (): boolean => {
+    if (!item.name.trim()) {
+      setErrors({ name: 'Item name is required.' });
+      return false;
+    }
+    if (!item.categoryId) {
+      setErrors({ categoryId: 'Category is required.' });
+      return false;
+    }
+    if (!item.picture) {
+      setErrors({ picture: 'Picture is required.' });
+      return false;
+    }
+    if (!item.date) {
+      setErrors({ date: 'Date is required.' });
+      return false;
+    }
+    setErrors({});
+    return true;
   };
   const handleSubmit = (e: React.FormEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    const newErrors: Errors = {
-      name: !item.name.trim(),
-      categoryId: !item.categoryId,
-      picture: !item.picture,
-      date: !item.date,
-    };
-    if (
-      newErrors.name ||
-      newErrors.categoryId ||
-      newErrors.picture ||
-      newErrors.date
-    ) {
-      setErrors(newErrors);
-    } else {
-      // submit request
+    if (validate()) {
+      // send request
     }
   };
   return (
@@ -149,17 +132,18 @@ const Add = () => {
               name="name"
               value={item.name}
               onChange={handleChange}
-              error={errors.name}
-              helperText={errors.name && 'Item name is required.'}
+              error={Boolean(errors.name)}
+              helperText={errors.name}
             />
           </Grid>
         </Grid>
+
         <Grid container spacing={2} alignItems="center" marginTop={2}>
           <Grid item xs={4}>
             <label htmlFor="category">Category</label>
           </Grid>
           <Grid item xs={8}>
-            <FormControl fullWidth error={errors.categoryId}>
+            <FormControl fullWidth error={Boolean(errors.categoryId)}>
               <Select
                 fullWidth
                 id="category"
@@ -173,7 +157,7 @@ const Add = () => {
                 ))}
               </Select>
               {errors.categoryId && (
-                <FormHelperText>Category is required</FormHelperText>
+                <FormHelperText error>{errors.categoryId}</FormHelperText>
               )}
             </FormControl>
           </Grid>
@@ -186,6 +170,7 @@ const Add = () => {
             <Button
               component="label"
               variant="contained"
+              id="picture"
               startIcon={<CloudUploadIcon />}
             >
               Upload
@@ -193,11 +178,11 @@ const Add = () => {
                 type="file"
                 accept="image/*"
                 onChange={handlePictureChange}
-                onError={() => errors.picture}
+                onError={() => Boolean(errors.picture)}
               />
             </Button>
             {errors.picture && (
-              <FormHelperText error>Picture is required</FormHelperText>
+              <FormHelperText error>{errors.picture}</FormHelperText>
             )}
 
             {imagePreview && (
@@ -238,8 +223,8 @@ const Add = () => {
                 onChange={handleDateChange}
                 slotProps={{
                   textField: {
-                    error: errors.date,
-                    helperText: errors.date && 'Date is required.',
+                    error: Boolean(errors.date),
+                    helperText: errors.date,
                   },
                 }}
               />
@@ -263,14 +248,21 @@ const Add = () => {
             />
           </Grid>
         </Grid>
-        <Box width="100%" display="flex" justifyContent="end" marginTop={2}>
-          <Button variant="contained" className="mr-4">
-            Cancel
-          </Button>
-          <Button variant="contained" className="mr-4" type="submit">
-            Submit
-          </Button>
-        </Box>
+        <Grid container spacing={2} alignItems="center" marginTop={2}>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={8}>
+            <Box
+              width="100%"
+              display="flex"
+              justifyContent="center"
+              marginTop={2}
+            >
+              <Button variant="contained" className="mr-4" type="submit">
+                Submit
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </FormWrapper>
     </div>
   );

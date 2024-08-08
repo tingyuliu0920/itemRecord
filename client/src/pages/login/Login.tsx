@@ -1,43 +1,35 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import {
-  TextField,
   Button,
-  Typography,
   FormControl,
   InputLabel,
   Input,
   InputAdornment,
   IconButton,
+  FormHelperText,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import PageLayout from './components/PageLayout';
 import FormContainer from './components/FormContainer';
+import { validateEmail } from '../../utils/validate';
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 const Login = () => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState<Partial<LoginFormData>>({});
 
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError('');
-
-    // Dummy validation logic for demonstration purposes
-    if (username === 'user' && password === 'pass') {
-      alert('Login successful');
-    } else {
-      setError('Invalid username or password');
-    }
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,26 +40,65 @@ const Login = () => {
   ) => {
     event.preventDefault();
   };
+
+  const validate = (): boolean => {
+    const emailError = validateEmail(formData.email);
+    if (!formData.email.trim()) {
+      setErrors({ email: 'Email is required.' });
+      return false;
+    } else if (emailError) {
+      setErrors({ email: emailError });
+      return false;
+    }
+    if (!formData.password.trim()) {
+      setErrors({ password: 'Password is required.' });
+      return false;
+    } else if (formData.password.length < 6) {
+      setErrors({
+        password: 'The password you provided must have at least 6 characters.',
+      });
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (validate()) {
+      // send login request
+    }
+  };
   return (
     <PageLayout>
       <FormContainer>
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <TextField
-            fullWidth
-            id="username"
-            label="Username"
-            type="text"
-            // autoComplete="current-password"
-            variant="standard"
-            sx={{ margin: '8px 0' }}
-          />
           <FormControl sx={{ width: '100%' }} variant="standard">
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
+            <InputLabel htmlFor="email">Email</InputLabel>
             <Input
-              id="standard-adornment-password"
+              fullWidth
+              name="email"
+              id="email"
+              type="text"
+              sx={{ margin: '8px 0' }}
+              autoFocus
+              value={formData.email}
+              onChange={handleInputChange}
+              error={Boolean(errors.email)}
+            />
+            {errors.email && (
+              <FormHelperText error>{errors.email}</FormHelperText>
+            )}
+          </FormControl>
+          <FormControl sx={{ width: '100%' }} variant="standard">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input
+              name="password"
+              id="password"
               type={showPassword ? 'text' : 'password'}
+              value={formData.password}
+              onChange={handleInputChange}
+              error={Boolean(errors.password)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -80,12 +111,10 @@ const Login = () => {
                 </InputAdornment>
               }
             />
+            {errors.password && (
+              <FormHelperText error>{errors.password}</FormHelperText>
+            )}
           </FormControl>
-          {error && (
-            <Typography color="error" variant="body2">
-              {error}
-            </Typography>
-          )}
           <Button
             type="submit"
             fullWidth
